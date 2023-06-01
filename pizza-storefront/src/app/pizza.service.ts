@@ -37,12 +37,13 @@ export class PizzaService {
     return httpClient.post(`${BACKEND_BASE_URL}/api/order`, JSON.stringify(payload), requestOptions)
   }
 
+
   // TODO: Task 5
   // You may add any parameters and return any type from getOrders() method
   // Do not change the method name
-  getOrders(thisEmail: string, httpClient: HttpClient): Observable<AllLeanOrder> {
+  getOrders(thisEmail: string, httpClient: HttpClient) {
     const url = `${BACKEND_BASE_URL}/api/orders/${thisEmail}`;
-    return httpClient.get<AllLeanOrder>(url)
+    return httpClient.get(url)
   }
 
   // TODO: Task 7
