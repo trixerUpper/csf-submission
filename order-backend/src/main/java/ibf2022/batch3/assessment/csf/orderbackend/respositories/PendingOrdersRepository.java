@@ -6,7 +6,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import ibf2022.batch3.assessment.csf.orderbackend.models.PizzaOrder;
-import ibf2022.util.DeserUtils;
+import ibf2022.batch3.assessment.csf.orderbackend.util.DeserUtils;
 
 @Repository
 public class PendingOrdersRepository {
