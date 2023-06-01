@@ -40,7 +40,7 @@ public class OrdersRepository {
 		query.with(Sort.by(Sort.Direction.DESC, "date"));
 		query.fields().include("orderId").include("total").include("date");
 
-	 	return mongoTemplate.find(query, PizzaOrder.class, "orders");
+	 	return mongoTemplate.find(query, PizzaOrder.class, "orders");	
 	}
 
 	// TODO: Task 7
@@ -50,7 +50,7 @@ public class OrdersRepository {
 	public boolean markOrderDelivered(String orderId) {
 		Query query = new Query(Criteria.where("orderId").is(orderId));
         Update update = new Update().set("delivered", true);
-        UpdateResult result = mongoTemplate.updateFirst(query, update, PizzaOrder.class);
+        UpdateResult result = mongoTemplate.updateFirst(query, update, PizzaOrder.class, "orders");
         return result.getModifiedCount() > 0;
 	}
 

@@ -34,7 +34,7 @@ export class PizzaService {
 
     const requestOptions = { headers: headers };
     
-    return httpClient.post(`${BACKEND_BASE_URL}/api/order`, JSON.stringify(payload), requestOptions)
+    return httpClient.post(`/api/order`, JSON.stringify(payload), requestOptions)
   }
 
 
@@ -42,7 +42,7 @@ export class PizzaService {
   // You may add any parameters and return any type from getOrders() method
   // Do not change the method name
   getOrders(thisEmail: string, httpClient: HttpClient) {
-    const url = `${BACKEND_BASE_URL}/api/orders/${thisEmail}`;
+    const url = `/api/orders/${thisEmail}`;
     return httpClient.get(url)
   }
 
@@ -50,7 +50,7 @@ export class PizzaService {
   // You may add any parameters and return any type from delivered() method
   // Do not change the method name
   delivered(orderId: string, httpClient: HttpClient) {
-    const url = `${BACKEND_BASE_URL}/api/order/${orderId}`;
+    const url = `/api/order/${orderId}`;
     return httpClient.delete(url)
   }
 

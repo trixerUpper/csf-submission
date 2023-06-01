@@ -69,11 +69,12 @@ public class OrderController {
 	public ResponseEntity<String> deliveredOrder(@PathVariable String orderId) {
 		try {
 			boolean success = orderingService.markOrderDelivered(orderId);
+			System.out.println("Success:" + success);
 			if (success) {
-				return ResponseEntity.ok("Updated as delivered");
+				return ResponseEntity.ok("");
 			} else {
 				String formattedError = DeserUtils.formatError(String.format("orderId %s not found", orderId)).toString();
-				// return 404 not found if false
+				
 				return ResponseEntity.status(404).contentType(MediaType.APPLICATION_JSON).body(formattedError);
 			}
 		} catch (Exception e) {
@@ -81,4 +82,5 @@ public class OrderController {
 			return ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON).body(formattedError);
 		}
 	}
+
 }

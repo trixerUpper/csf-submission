@@ -87,6 +87,11 @@ public class OrderingService {
 	// For Task 7
 	// WARNING: Do not change the method's signature or its implemenation
 	public boolean markOrderDelivered(String orderId) {
-		return ordersRepo.markOrderDelivered(orderId) && pendingOrdersRepo.delete(orderId);
+		boolean ordersRepoOkay = ordersRepo.markOrderDelivered(orderId);
+		boolean pendingOrdersRepoOkay = pendingOrdersRepo.delete(orderId);
+		System.out.println("ordersRepoOkay" + ordersRepoOkay);
+		System.out.println("pendingOrdersRepoOkay" + pendingOrdersRepoOkay);
+		return ordersRepoOkay && pendingOrdersRepoOkay;
 	}
+
 }
