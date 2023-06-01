@@ -1,5 +1,3 @@
-<button [routerLink]="['/view1']">Upload</button>
-
 <p *ngIf="thisEmail != null"> Orders for {{ thisEmail }} </p>
 
 <div *ngIf="allLeanOrders != null">
@@ -17,7 +15,7 @@
                             <p>Order Id: {{leanOrder.orderId}}</p>
                         </td>
                         <td>
-                            <button>Delivered</button>
+                            <button (click)="markOrderDelivered(leanOrder.orderId)">Delivered</button>
                         </td>
                     </tr>
                     <tr>

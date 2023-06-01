@@ -21,6 +21,12 @@ public class AppConfig {
 	@Value("${spring.data.redis.database}")
 	private Integer redisDB;
 
+	@Value("${spring.data.redis.username}")
+	private String redisUsername;
+
+	@Value("${spring.data.redis.password}")
+	private String redisPassword;
+
 	// Warning: Do not modify the createTemplate() method; either its method signature 
 	// or its logic. Changing any of these will render any of your assessment task using
 	// this RedisTemplate INVALID

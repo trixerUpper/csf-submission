@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BACKEND_BASE_URL } from 'environment-variables';
+import { OrderToSubmitPayload, PizzaService } from '../pizza.service';
 
 const SIZES: string[] = [
   "Personal - 6 inches",
@@ -32,13 +33,17 @@ interface OrderPayload {
 export class MainComponent implements OnInit{
   myForm!: FormGroup;
   toppings!: FormGroup;
-  pizzaSize = SIZES[0]
+  pizzaService: PizzaService;
+  pizzaSize = SIZES[0];
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router, pizzaService: PizzaService) { 
+    this.formBuilder = formBuilder;
+    this.http = http;
+    this.router = router;
+    this.pizzaService = pizzaService;
   }
-
   
-  private createForm(){
+  private createForm() {
     this.myForm = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
@@ -79,8 +84,8 @@ export class MainComponent implements OnInit{
       } else {
         pizzaSizeInt = 15;
       }
-
-      const payload = {
+      
+      const payload: OrderToSubmitPayload = {
         name: this.myForm.value.name,
         email: this.myForm.value.email,
         size: pizzaSizeInt,
@@ -89,17 +94,11 @@ export class MainComponent implements OnInit{
         toppings: Object.keys(this.myForm.value.toppings)
           .filter((topping) => this.myForm.value.toppings[topping]),
         comments: this.myForm.value.comments
-      };
+      } as OrderToSubmitPayload;
 
       console.log(payload);
 
-      const headers = new HttpHeaders()
-      .set("Content-Type", "application/json")
-      .set("Accept", "application/json");
-
-      const requestOptions = { headers: headers };
-      
-      this.http.post(`${BACKEND_BASE_URL}/api/order`,JSON.stringify(payload), requestOptions).subscribe(
+      this.pizzaService.placeOrder(payload, this.http).subscribe(
         response => {
           console.log("Form submitted");
           console.log(response);

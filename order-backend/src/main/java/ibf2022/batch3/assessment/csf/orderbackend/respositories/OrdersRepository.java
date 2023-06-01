@@ -40,7 +40,7 @@ public class OrdersRepository {
 		query.with(Sort.by(Sort.Direction.DESC, "date"));
 		query.fields().include("orderId").include("total").include("date");
 
-	 	return mongoTemplate.find(query, PizzaOrder.class, "orders");	
+	 	return mongoTemplate.find(query, PizzaOrder.class, "orders");
 	}
 
 	// TODO: Task 7

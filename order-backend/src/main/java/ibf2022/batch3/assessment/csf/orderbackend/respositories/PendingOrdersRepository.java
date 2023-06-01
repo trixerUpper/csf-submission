@@ -15,6 +15,7 @@ public class PendingOrdersRepository {
 
 	@Autowired
 	@Qualifier("pending-orders")
+
 	public RedisTemplate<String, String> redisTemplate;
 
 	// TODO: Task 3

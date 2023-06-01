@@ -1,6 +1,5 @@
 package ibf2022.batch3.assessment.csf.orderbackend.controllers;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,7 @@ public class OrderController {
 			return ResponseEntity.ok(formattedOrder);
 		} catch	(Exception e) {
 			String formattedError = DeserUtils.formatError(e.getMessage()).toString();
-			return ResponseEntity.status(400).body(formattedError);
+			return ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON).body(formattedError);
 		}
 		
 	}
@@ -55,7 +54,7 @@ public class OrderController {
 	// TODO: Task 6 - GET /api/orders/<email>
 	@GetMapping(path="/api/orders/{email}", produces="application/json")
 	public ResponseEntity<String> getOrders(@PathVariable String email) {
-		 try {
+		try {
 			List<PizzaOrder> orders = orderingService.getPendingOrdersByEmail(email);
 			String serializedOrders = DeserUtils.listOfPizzaOrdersToString(orders).toString();
 			return ResponseEntity.ok(serializedOrders);
@@ -74,6 +73,7 @@ public class OrderController {
 				return ResponseEntity.ok("Updated as delivered");
 			} else {
 				String formattedError = DeserUtils.formatError(String.format("orderId %s not found", orderId)).toString();
+				// return 404 not found if false
 				return ResponseEntity.status(404).contentType(MediaType.APPLICATION_JSON).body(formattedError);
 			}
 		} catch (Exception e) {
