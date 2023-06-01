@@ -3,7 +3,7 @@
 -->
 
 <div class="box-it">
-  <form *ngIf="myForm != null">
+  <form *ngIf="myForm != null" [formGroup]="myForm" (ngSubmit)="submitForm()">
     <table>
       <tr>
         <td> <label for="name">Name:</label> </td>
@@ -45,16 +45,16 @@
       <tr>
         <td> <label>Toppings:</label> </td>
         <td>
-          <div class="space-around">
-            <input type="checkbox" name="toppings" value="chicken" formControlName="toppings"> Chicken
-            <input type="checkbox" name="toppings" value="seafood" formControlName="toppings"> Seafood
-            <input type="checkbox" name="toppings" value="beef" formControlName="toppings"> Beef
-            <input type="checkbox" name="toppings" value="vegetables" formControlName="toppings"> Vegetables
+          <div class="space-around" formGroupName="toppings">
+            <input type="checkbox" name="toppings" value="chicken" formControlName="chicken"> Chicken
+            <input type="checkbox" name="toppings" value="seafood" formControlName="seafood"> Seafood
+            <input type="checkbox" name="toppings" value="beef" formControlName="beef"> Beef
+            <input type="checkbox" name="toppings" value="vegetables" formControlName="vegetables"> Vegetables
           </div>
-          <div class="space-around">
-            <input type="checkbox" name="toppings" value="cheese" formControlName="toppings"> Extra Cheese
-            <input type="checkbox" name="toppings" value="arugula" formControlName="toppings"> Arugula (Rocket)
-            <input type="checkbox" name="toppings" value="pineapple" formControlName="toppings"> Pineapple
+          <div class="space-around" formGroupName="toppings">
+            <input type="checkbox" name="toppings" value="cheese" formControlName="cheese"> Extra Cheese
+            <input type="checkbox" name="toppings" value="arugula" formControlName="argula"> Arugula (Rocket)
+            <input type="checkbox" name="toppings" value="pineapple" formControlName="pineapple"> Pineapple
           </div>
           <div>
             <small>Select toppings, one or more from the above</small>
@@ -62,9 +62,9 @@
         </td>
       </tr>
       <tr>
-        <td><label for="comments" formControlName="comments">Comments:</label></td>
+        <td><label for="comments">Comments:</label></td>
         <td>
-          <textarea id="comments" cols="40" rows="5"></textarea>
+          <textarea id="comments" formControlName="comments" cols="40" rows="5"></textarea>
         </td>
       </tr>
       <tr>
