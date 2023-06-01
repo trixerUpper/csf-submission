@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,5 +66,19 @@ public class OrderController {
 	}
 
 	// TODO: Task 7 - DELETE /api/order/<orderId>
-
+	@DeleteMapping(path="/api/order/{orderId}", produces="application/json")
+	public ResponseEntity<String> deliveredOrder(@PathVariable String orderId) {
+		try {
+			boolean success = orderingService.markOrderDelivered(orderId);
+			if (success) {
+				return ResponseEntity.ok("Updated as delivered");
+			} else {
+				String formattedError = DeserUtils.formatError(String.format("orderId %s not found", orderId)).toString();
+				return ResponseEntity.status(404).contentType(MediaType.APPLICATION_JSON).body(formattedError);
+			}
+		} catch (Exception e) {
+			String formattedError = DeserUtils.formatError(e.getMessage()).toString();
+			return ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON).body(formattedError);
+		}
+	}
 }
