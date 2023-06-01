@@ -1,1 +1,34 @@
-<p>orders works!</p>
+<button [routerLink]="['/view1']">Upload</button>
+
+<p *ngIf="thisEmail != null"> Orders for {{ thisEmail }} </p>
+
+<div *ngIf="allLeanOrders != null">
+    <table>
+        <tr *ngFor="let leanOrder of allLeanOrders.orders">
+            <div>
+                <table>
+                    <tr>
+                        <td>
+                            <p>Date: {{leanOrder.date}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Order Id: {{leanOrder.orderId}}</p>
+                        </td>
+                        <td>
+                            <button>Delivered</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Total: {{leanOrder.total}}</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </tr>
+    </table>
+</div>
+
+<button [routerLink]="['/']">Back to Ordering</button>

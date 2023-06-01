@@ -3,7 +3,10 @@ package ibf2022.batch3.assessment.csf.orderbackend.respositories;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import ibf2022.batch3.assessment.csf.orderbackend.models.PizzaOrder;
@@ -28,8 +31,13 @@ public class OrdersRepository {
 	// Write the native MongoDB query in the comment below
 	//   Native MongoDB query here for getPendingOrdersByEmail()
 	public List<PizzaOrder> getPendingOrdersByEmail(String email) {
+		Criteria criteria = Criteria.where("email").is(email).and("delivered").ne(true);
+		Query query = Query.query(criteria);
 
-		return null;
+		query.with(Sort.by(Sort.Direction.DESC, "date"));
+		query.fields().include("orderId").include("total").include("date");
+
+	 	return mongoTemplate.find(query, PizzaOrder.class, "orders");	
 	}
 
 	// TODO: Task 7

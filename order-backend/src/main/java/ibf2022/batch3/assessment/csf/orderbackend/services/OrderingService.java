@@ -37,18 +37,28 @@ public class OrderingService {
 	public PizzaOrder placeOrder(PizzaOrder order) throws OrderException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		String header = "Accept";
-		String value = "text/plain";
-		headers.set(header, value);
+			String header = "Accept";
+			String value = "text/plain";
+			headers.set(header, value);
 
-		String payload = "name=" + order.getName() + "&email=" + order.getEmail() + "&sauce=" + order.getSauce() + "&size=" + order.getSize() + "&thickCrust=" + order.getThickCrust() + "&toppings=" + String.join(",", order.getToppings()) + "&comments=" + order.getComments();
+		String payload = UriComponentsBuilder.newInstance()
+			.queryParam("name", order.getName())
+			.queryParam("email", order.getEmail())
+			.queryParam("sauce", order.getSauce())
+			.queryParam("size", order.getSize())
+			.queryParam("thickCrust", order.getThickCrust())
+			.queryParam("toppings", String.join(",", order.getToppings()))
+			.queryParam("comments", order.getComments())
+			.build()
+			.encode()
+			.toUriString();
 
 		HttpEntity<String> entity = new HttpEntity<>(payload, headers);
-		String quotationUrl = UriComponentsBuilder
-		.fromUriString(PRICING_SERVICE_URL)
-		.toUriString();
+		String quotationUrl = UriComponentsBuilder.fromUriString(PRICING_SERVICE_URL).toUriString();
+
         RestTemplate template = new RestTemplate();
-        ResponseEntity<String> resp = template.exchange(quotationUrl, HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> resp = template.exchange(quotationUrl,HttpMethod.POST, entity, String.class);
+
         if (resp.getStatusCode() == HttpStatus.OK) {
             String result = resp.getBody();
 			String[] split = result.split(",");
@@ -59,13 +69,13 @@ public class OrderingService {
 			ordersRepo.add(order);
 
 			pendingOrdersRepo.add(order);
+
 			return order;
 		} else {
-            JsonObject errorObject = Json.createReader(new ByteArrayInputStream(resp.getBody().getBytes()))
-                    .readObject();
+            JsonObject errorObject = Json.createReader(new ByteArrayInputStream(resp.getBody().getBytes())).readObject();
             String errorMessage = errorObject.getString("error");
             throw new OrderException(errorMessage);
-		}
+        }
 
 	}
 

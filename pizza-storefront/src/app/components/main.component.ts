@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BACKEND_BASE_URL } from 'environment-variables';
 
 const SIZES: string[] = [
   "Personal - 6 inches",
@@ -98,7 +99,7 @@ export class MainComponent implements OnInit{
 
       const requestOptions = { headers: headers };
       
-      this.http.post(`http://localhost:8080`,JSON.stringify(payload), requestOptions).subscribe(
+      this.http.post(`${BACKEND_BASE_URL}/api/order`,JSON.stringify(payload), requestOptions).subscribe(
         response => {
           console.log("Form submitted");
           console.log(response);
